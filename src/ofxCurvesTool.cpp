@@ -36,7 +36,7 @@ void ofxCurvesTool::draw(int x, int y) {
 	ofPushMatrix();
 	ofTranslate(x, y);
 	
-	drawPosition = worldToScreen(ofVec2f(0, 0));
+	//drawPosition = worldToScreen(ofVec2f(0, 0));
 	
 	ofPushMatrix();
 	ofTranslate(0, n);
