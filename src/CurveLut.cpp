@@ -41,6 +41,24 @@ void CurveLut::set(int i, ofVec2f controlPoint) {
 	update();
 }
 
+float CurveLut::getLut(int i) {
+	return lut[i];
+}
+
+
+ofVec2f CurveLut::getPoint(int i) {
+	return controlPoints[i];
+}
+
+vector<ofVec2f> CurveLut::getControlPoints() {
+	return controlPoints;
+}
+
+
+float CurveLut::getPointSize() {
+	return controlPoints.size();
+}
+
 void CurveLut::remove(int i) {
 	controlPoints.erase(controlPoints.begin() + i);
 	update();
@@ -86,7 +104,6 @@ vector<float> CurveLut::getSecondDerivative() {
 	}
 	return y2;
 }
-
 
 void CurveLut::update() {
 	vector<float> sd = getSecondDerivative();
