@@ -225,3 +225,7 @@ void ofxCurvesTool::drawEvent(ofEventArgs& args) {
 	}
 	drawn = false; // turn the drawn flag off, for draw() to turn back on
 }
+
+int ofxCurvesTool::getCurrentHover() {
+	return curHover;
+}

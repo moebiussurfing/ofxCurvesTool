@@ -8,6 +8,7 @@ public:
 	void draw(int x = 0, int y = 0);
 	void save(string filename);
 	void load(string filename);
+	int getCurrentHover();
 	
 	// these are only used internally
 	ofxCurvesTool();
