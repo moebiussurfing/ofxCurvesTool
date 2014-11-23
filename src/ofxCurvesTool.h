@@ -9,6 +9,7 @@ public:
 	void save(string filename);
 	void load(string filename);
 	int getCurrentHover();
+	void clear();
 	
 	// these are only used internally
 	ofxCurvesTool();

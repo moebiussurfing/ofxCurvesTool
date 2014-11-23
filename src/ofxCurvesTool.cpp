@@ -229,3 +229,7 @@ void ofxCurvesTool::drawEvent(ofEventArgs& args) {
 int ofxCurvesTool::getCurrentHover() {
 	return curHover;
 }
+
+void ofxCurvesTool::clear() {
+	controlPoints.clear();
+}
