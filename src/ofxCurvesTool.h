@@ -8,8 +8,13 @@ public:
 	void draw(int x = 0, int y = 0);
 	void save(string filename);
 	void load(string filename);
+	void setCurrentHover(int i);
 	int getCurrentHover();
 	void clear();
+	void setLabelPosition();
+	void setLabelPosition(int x, int y);
+	void useMouse(bool b);
+	void useKey(bool b);
 	
 	// these are only used internally
 	ofxCurvesTool();
@@ -20,10 +25,22 @@ public:
 	void keyPressed(ofKeyEventArgs& args);
 	void keyReleased(ofKeyEventArgs& args) {}
 	void drawEvent(ofEventArgs& args);
-	
+
+	void nextPoint();
+	void prevPoint();
+
+	bool mouseAddsPoint;
+	bool mouseMovesPoint;
+	bool keepFocus;
+
+	ofEvent<ofVec3f> curHoverChange;
+	ofEvent<ofVec3f> curHoverUpdate;
+
+
 protected:
 	ofVec2f drawPosition;
-	
+	ofPoint labelPosition;
+
 	void updateMouse(ofMouseEventArgs& args);
 	int mouseX, mouseY;
 	bool focus;
@@ -33,4 +50,7 @@ protected:
 	bool dragState;
 	int curHover;
 	bool drawing, drawn;
+	bool bMouse;
+	bool bKey;
+
 };

@@ -8,8 +8,14 @@ ofxCurvesTool::ofxCurvesTool()
 ,curHover(0)
 ,focus(false)
 ,drawing(false)
-,drawn(false) {
+,bKey(true)
+,bMouse(true)
+,mouseAddsPoint(true)
+,mouseMovesPoint(true)
+,drawn(false)
+,keepFocus(false) {
 	ofAddListener(ofEvents().draw, this, &ofxCurvesTool::drawEvent);
+	labelPosition = ofPoint(4,18);
 }
 
 GLdouble modelviewMatrix[16], projectionMatrix[16];
@@ -32,12 +38,19 @@ ofVec3f worldToScreen(ofVec3f world) {
 void ofxCurvesTool::draw(int x, int y) {
 	drawn = true; // we've made a call to draw
 	
+	if (keepFocus){
+		focus = true;
+		hoverState = true;
+	}
+
 	ofPushStyle();
 	ofPushMatrix();
 	ofTranslate(x, y);
 	
 	//drawPosition = worldToScreen(ofVec2f(0, 0));
 	
+	drawPosition = ofVec3f(x,y,0);
+
 	ofPushMatrix();
 	ofTranslate(0, n);
 	ofScale(1, -1);
@@ -105,8 +118,8 @@ void ofxCurvesTool::draw(int x, int y) {
 	
 	// info for current point
 	if(focus) {
-		string label = ofToString((int) cur.x) + ", " + ofToString((int) cur.y);
-		ofDrawBitmapString(label, 4, 18);
+		string label = ofToString(curHover) + ": " + ofToString((int) cur.x) + ", " + ofToString((int) cur.y);
+		ofDrawBitmapString(label, labelPosition.x, labelPosition.y);
 	}
 	ofPopMatrix();
 	ofPopStyle();
@@ -155,12 +168,19 @@ void ofxCurvesTool::updateMouse(ofMouseEventArgs& args) {
 	mouseX = ofClamp(mouseX, 0, n - 1);
 	mouseY = ofClamp(mouseY, 0, n - 1);
 	int m = controlPoints.size();
+
 	if(focus && !dragState) {
 		hoverState = false;
 		for(int i = 0; i < m; i++) {
 			ofVec2f& cur = controlPoints[i];
 			if(abs(cur.x - mouseX) < minDistance) {
-				curHover = i;
+
+				if (curHover != i){
+					curHover = i;
+					ofVec3f xyi = ofVec3f(getPoint(curHover).x, getPoint(curHover).y, curHover);
+					ofNotifyEvent(curHoverChange, xyi);
+				}
+
 				hoverState = true;
 			}
 		}
@@ -172,9 +192,11 @@ void ofxCurvesTool::mouseMoved(ofMouseEventArgs& args) {
 }
 
 void ofxCurvesTool::mousePressed(ofMouseEventArgs& args) {
+	hoverState = false;
+
 	updateMouse(args);
 	if(focus) {
-		if(!hoverState) {
+		if(!hoverState && mouseAddsPoint) {
 			add(ofVec2f(mouseX, mouseY));
 			updateMouse(args);
 		}
@@ -186,7 +208,11 @@ void ofxCurvesTool::mousePressed(ofMouseEventArgs& args) {
 void ofxCurvesTool::mouseDragged(ofMouseEventArgs& args) {
 	updateMouse(args);
 	if(dragState) {
-		set(curHover, ofVec2f(mouseX, mouseY));
+		if (mouseMovesPoint){
+			set(curHover, ofVec2f(mouseX, mouseY));
+			ofVec3f xyi = ofVec3f(getPoint(curHover).x, getPoint(curHover).y, curHover);
+			ofNotifyEvent(curHoverUpdate, xyi);
+		}
 	} else {
 		focus = false;
 	}
@@ -198,7 +224,7 @@ void ofxCurvesTool::mouseReleased(ofMouseEventArgs& args) {
 }
 
 void ofxCurvesTool::keyPressed(ofKeyEventArgs& args) {
-	if((args.key == OF_KEY_DEL || args.key == OF_KEY_BACKSPACE) && hoverState) {
+	if(bKey && (args.key == OF_KEY_DEL || args.key == OF_KEY_BACKSPACE) && hoverState) {
 		remove(curHover);
 		hoverState = false;
 		dragState = false;
@@ -230,6 +256,60 @@ int ofxCurvesTool::getCurrentHover() {
 	return curHover;
 }
 
+void ofxCurvesTool::setCurrentHover(int i) {
+	if (curHover != i){
+		curHover = i;
+		ofVec3f xyi = ofVec3f(getPoint(curHover).x, getPoint(curHover).y, curHover);
+		ofNotifyEvent(curHoverChange, xyi);
+	}
+
+	hoverState = true;
+	focus = true;
+}
+
+
 void ofxCurvesTool::clear() {
 	controlPoints.clear();
+}
+
+void ofxCurvesTool::setLabelPosition() {
+	labelPosition = ofPoint(4,18);
+}
+void ofxCurvesTool::setLabelPosition(int x, int y) {
+	labelPosition = ofPoint(x,y);
+}
+
+void ofxCurvesTool::useKey(bool b){
+	bKey = b;
+	if (b){
+		ofRegisterKeyEvents(this);
+	}
+	else{
+		ofUnregisterKeyEvents(this);
+	}
+}
+void ofxCurvesTool::useMouse(bool b){
+	bMouse = b;
+	if (b){
+		ofRegisterMouseEvents(this);
+	}
+	else{
+		ofUnregisterMouseEvents(this);
+	}
+}
+
+void ofxCurvesTool::nextPoint() {
+	int size = getPointSize();
+	if (getCurrentHover() + 1 < size-1)
+		setCurrentHover(getCurrentHover() + 1);
+	else
+		setCurrentHover(size-1);
+}
+
+void ofxCurvesTool::prevPoint() {
+	int size = getPointSize();
+	if (getCurrentHover() - 1 > 0)
+		setCurrentHover(getCurrentHover() - 1);
+	else
+		setCurrentHover(0);
 }
