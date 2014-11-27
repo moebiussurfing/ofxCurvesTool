@@ -55,11 +55,11 @@ void ofxCurvesTool::draw(int x, int y) {
 	ofTranslate(0, n);
 	ofScale(1, -1);
 	
-	/*
+	
 	ofSetColor(ofColor::black);
 	ofFill();
 	ofRect(0, 0, n, n);
-	*/
+
 	
 	// grid
 	ofSetColor(50);
