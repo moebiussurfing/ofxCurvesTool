@@ -25,7 +25,10 @@ public:
 	void keyPressed(ofKeyEventArgs& args);
 	void keyReleased(ofKeyEventArgs& args) {}
 	void drawEvent(ofEventArgs& args);
-
+    void mouseEntered(ofMouseEventArgs& args);
+    void mouseExited(ofMouseEventArgs& args);
+    void mouseScrolled(ofMouseEventArgs& args);
+    
 	void nextPoint();
 	void prevPoint();
 

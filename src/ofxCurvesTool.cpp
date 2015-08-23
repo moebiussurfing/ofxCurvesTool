@@ -47,9 +47,9 @@ void ofxCurvesTool::draw(int x, int y) {
 	ofPushMatrix();
 	ofTranslate(x, y);
 	
-	//drawPosition = worldToScreen(ofVec2f(0, 0));
+	drawPosition = worldToScreen(ofVec2f(0, 0));
 	
-	drawPosition = ofVec3f(x,y,0);
+	//drawPosition = ofVec3f(x,y,0);
 
 	ofPushMatrix();
 	ofTranslate(0, n);
@@ -58,14 +58,14 @@ void ofxCurvesTool::draw(int x, int y) {
 	
 	ofSetColor(ofColor::black);
 	ofFill();
-	ofRect(0, 0, n, n);
-
+	ofDrawRectangle(0, 0, n, n);
+    
 	
 	// grid
 	ofSetColor(50);
 	for(int i = 0; i < n; i += 64) {
-		ofLine(0, i, n, i);
-		ofLine(i, 0, i, n);
+		ofDrawLine(0, i, n, i);
+		ofDrawLine(i, 0, i, n);
 	}
 	
 	// diagonal, crosshairs
@@ -76,16 +76,16 @@ void ofxCurvesTool::draw(int x, int y) {
 	} else {
 		cur = ofVec2f(mouseX, lut[(int) mouseX]);
 	}
-	ofLine(0, 0, n, n);
+	ofDrawLine(0, 0, n, n);
 	if(focus) {
-		ofLine(0, cur.y, n, cur.y);
-		ofLine(cur.x, 0, cur.x, n);
+		ofDrawLine(0, cur.y, n, cur.y);
+		ofDrawLine(cur.x, 0, cur.x, n);
 	}
 	
 	// outline
 	ofSetColor(ofColor::white);
 	ofNoFill();
-	ofRect(.5, .5, n - 1, n - 1);
+	ofDrawRectangle(.5, .5, n - 1, n - 1);
 	
 	// curve
 	ofNoFill();
@@ -107,10 +107,10 @@ void ofxCurvesTool::draw(int x, int y) {
 			} else {
 				ofNoFill();
 			}
-			ofCircle(0, 0, 3);
+			ofDrawCircle(0, 0, 3);
 		} else {
 			ofFill();
-			ofCircle(0, 0, 2);
+			ofDrawCircle(0, 0, 2);
 		}
 		ofPopMatrix();
 	}
@@ -230,6 +230,11 @@ void ofxCurvesTool::keyPressed(ofKeyEventArgs& args) {
 		dragState = false;
 	}
 }
+
+void ofxCurvesTool::mouseEntered(ofMouseEventArgs& args){}
+void ofxCurvesTool::mouseExited(ofMouseEventArgs& args){}
+void ofxCurvesTool::mouseScrolled(ofMouseEventArgs& args){}
+
 
 /*
  this part controls whether events get through to the object or not. if the
