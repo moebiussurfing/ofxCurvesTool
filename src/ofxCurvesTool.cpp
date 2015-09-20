@@ -177,8 +177,11 @@ void ofxCurvesTool::updateMouse(ofMouseEventArgs& args) {
 
 				if (curHover != i){
 					curHover = i;
-					ofVec3f xyi = ofVec3f(getPoint(curHover).x, getPoint(curHover).y, curHover);
-					ofNotifyEvent(curHoverChange, xyi);
+					
+                    if (bEvents){
+                        ofVec3f xyi = ofVec3f(getPoint(curHover).x, getPoint(curHover).y, curHover);
+                        ofNotifyEvent(curHoverChange, xyi);
+                    }
 				}
 
 				hoverState = true;
@@ -210,8 +213,10 @@ void ofxCurvesTool::mouseDragged(ofMouseEventArgs& args) {
 	if(dragState) {
 		if (mouseMovesPoint){
 			set(curHover, ofVec2f(mouseX, mouseY));
-			ofVec3f xyi = ofVec3f(getPoint(curHover).x, getPoint(curHover).y, curHover);
-			ofNotifyEvent(curHoverUpdate, xyi);
+            if (bEvents){
+                ofVec3f xyi = ofVec3f(getPoint(curHover).x, getPoint(curHover).y, curHover);
+                ofNotifyEvent(curHoverUpdate, xyi);
+            }
 		}
 	} else {
 		focus = false;
@@ -264,14 +269,15 @@ int ofxCurvesTool::getCurrentHover() {
 void ofxCurvesTool::setCurrentHover(int i) {
 	if (curHover != i){
 		curHover = i;
-		ofVec3f xyi = ofVec3f(getPoint(curHover).x, getPoint(curHover).y, curHover);
-		ofNotifyEvent(curHoverChange, xyi);
+        if (bEvents){
+            ofVec3f xyi = ofVec3f(getPoint(curHover).x, getPoint(curHover).y, curHover);
+            ofNotifyEvent(curHoverChange, xyi);
+        }
 	}
 
 	hoverState = true;
 	focus = true;
 }
-
 
 void ofxCurvesTool::clear() {
 	controlPoints.clear();
@@ -317,4 +323,8 @@ void ofxCurvesTool::prevPoint() {
 		setCurrentHover(getCurrentHover() - 1);
 	else
 		setCurrentHover(0);
+}
+
+void ofxCurvesTool::notifyEvents(bool b) {
+    bEvents = b;
 }

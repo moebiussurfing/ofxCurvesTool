@@ -38,6 +38,8 @@ public:
 
 	ofEvent<ofVec3f> curHoverChange;
 	ofEvent<ofVec3f> curHoverUpdate;
+    
+    void notifyEvents(bool b);
 
 
 protected:
@@ -55,5 +57,6 @@ protected:
 	bool drawing, drawn;
 	bool bMouse;
 	bool bKey;
+    bool bEvents;
 
 };
