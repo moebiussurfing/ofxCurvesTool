@@ -14,4 +14,7 @@ public:
 	ofxCurvesTool curvesTool;
 	ofImage img;
 	bool show;
+    
+    int cnt = 0;
+    int amount = amount;
 };

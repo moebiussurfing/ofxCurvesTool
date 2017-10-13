@@ -35,7 +35,10 @@ ofVec3f worldToScreen(ofVec3f world) {
 	return screen;
 }
 
-void ofxCurvesTool::draw(int x, int y) {
+//void ofxCurvesTool::draw(int x, int y) {
+//    
+//}
+void ofxCurvesTool::draw(int x, int y, int index) {
 	drawn = true; // we've made a call to draw
 	
 	if (keepFocus){
@@ -116,6 +119,13 @@ void ofxCurvesTool::draw(int x, int y) {
 	}
 	ofPopMatrix();
 	
+    if(index > -1){
+        ofPushMatrix();
+        ofTranslate(index,n - lut[(int) index]);
+        ofDrawCircle(0, 0, 5);
+        ofPopMatrix();
+    }
+    
 	// info for current point
 	if(focus) {
 		string label = ofToString(curHover) + ": " + ofToString((int) cur.x) + ", " + ofToString((int) cur.y);

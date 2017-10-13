@@ -5,7 +5,8 @@
 
 class ofxCurvesTool : public CurveLut {
 public:
-	void draw(int x = 0, int y = 0);
+//    void draw(int x = 0, int y = 0);
+    void draw(int x = 0, int y = 0, int index = -1);
 	void save(string filename);
 	void load(string filename);
 	void setCurrentHover(int i);
