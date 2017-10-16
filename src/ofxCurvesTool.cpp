@@ -16,6 +16,8 @@ ofxCurvesTool::ofxCurvesTool()
 ,keepFocus(false) {
 	ofAddListener(ofEvents().draw, this, &ofxCurvesTool::drawEvent);
 	labelPosition = ofPoint(4,18);
+    
+
 }
 
 GLdouble modelviewMatrix[16], projectionMatrix[16];
@@ -38,6 +40,11 @@ ofVec3f worldToScreen(ofVec3f world) {
 //void ofxCurvesTool::draw(int x, int y) {
 //    
 //}
+
+void ofxCurvesTool::draw(int x, int y, float index) {
+    draw(x,y,int(index));
+}
+
 void ofxCurvesTool::draw(int x, int y, int index) {
 	drawn = true; // we've made a call to draw
 	
@@ -119,7 +126,9 @@ void ofxCurvesTool::draw(int x, int y, int index) {
 	}
 	ofPopMatrix();
 	
+    
     if(index > -1){
+        ofSetColor(255);
         ofPushMatrix();
         ofTranslate(index,n - lut[(int) index]);
         ofDrawCircle(0, 0, 5);
@@ -287,6 +296,18 @@ void ofxCurvesTool::setCurrentHover(int i) {
 
 	hoverState = true;
 	focus = true;
+}
+
+float ofxCurvesTool::getAt(float float_index){
+    
+
+    float lower = lut[floor(float_index)];
+    float upper = lut[ceil(float_index)];
+    
+//    ofLog()<<float_index<<" floor "<<floor(float_index)<<" ceil "<<ceil(float_index);
+//    ofLog()<<float_index<<" lower "<<lower<<" upper "<<upper;
+//    ofLog()<<"result "<<ofMap(i,floor(float_index),ceil(float_index),lower,upper,true);
+    return ofMap(float_index,floor(float_index),ceil(float_index),lower,upper,true);
 }
 
 void ofxCurvesTool::clear() {

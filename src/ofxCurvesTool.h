@@ -7,6 +7,7 @@ class ofxCurvesTool : public CurveLut {
 public:
 //    void draw(int x = 0, int y = 0);
     void draw(int x = 0, int y = 0, int index = -1);
+     void draw(int x = 0, int y = 0, float index = -1);
 	void save(string filename);
 	void load(string filename);
 	void setCurrentHover(int i);
@@ -42,7 +43,8 @@ public:
     
     void notifyEvents(bool b);
 
-
+    float getAt(float float_index);
+    
 protected:
 	ofVec2f drawPosition;
 	ofPoint labelPosition;
@@ -60,4 +62,5 @@ protected:
 	bool bKey;
     bool bEvents;
 
+ 
 };

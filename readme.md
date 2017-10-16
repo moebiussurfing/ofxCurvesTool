@@ -12,6 +12,12 @@ To get access to the data stored inside the curve, just use the `[]` operator. F
 		}
 	}
 
+To get the interpolated value between two integer x values call:
+
+     float vv = curvesTool.getAt(float_index);
+     
+Where float_index can be a float.
+     
 ## Enable/Disable
 
 The interface only listens to mouse and keyboard events when it is drawn. It's a little magical, but if you're interested in the details see the implementation for `ofxCurvesTool::drawEvent()`.
