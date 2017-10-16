@@ -316,9 +316,9 @@ float ofxCurvesTool::getAtPercent(float i){
     float lower = lut[floor(i)];
     float upper = lut[ceil(i)];
     
-        ofLog()<<i<<" floor "<<floor(i)<<" ceil "<<ceil(i);
-        ofLog()<<i<<" lower "<<lower<<" upper "<<upper;
-        ofLog()<<"result "<<ofMap(i,floor(i),ceil(i),lower,upper,true);
+//        ofLog()<<i<<" floor "<<floor(i)<<" ceil "<<ceil(i);
+//        ofLog()<<i<<" lower "<<lower<<" upper "<<upper;
+//        ofLog()<<"result "<<ofMap(i,floor(i),ceil(i),lower,upper,true);
     return ofMap(i,floor(i),ceil(i),lower,upper,true);
 }
 

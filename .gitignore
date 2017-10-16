@@ -133,3 +133,5 @@ recordings/
 *.avi
 *.mp4
 *.zip
+*.pbxproj
+*.xcodeproj
