@@ -44,6 +44,7 @@ public:
     void notifyEvents(bool b);
 
     float getAt(float float_index);
+    float getAtPercent(float i);
     
 protected:
 	ofVec2f drawPosition;

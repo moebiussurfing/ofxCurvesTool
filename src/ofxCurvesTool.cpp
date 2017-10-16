@@ -306,8 +306,20 @@ float ofxCurvesTool::getAt(float float_index){
     
 //    ofLog()<<float_index<<" floor "<<floor(float_index)<<" ceil "<<ceil(float_index);
 //    ofLog()<<float_index<<" lower "<<lower<<" upper "<<upper;
-//    ofLog()<<"result "<<ofMap(i,floor(float_index),ceil(float_index),lower,upper,true);
+//    ofLog()<<"result "<<ofMap(float_index,floor(float_index),ceil(float_index),lower,upper,true);
     return ofMap(float_index,floor(float_index),ceil(float_index),lower,upper,true);
+}
+
+float ofxCurvesTool::getAtPercent(float i){
+    
+    i = i * (n-1);
+    float lower = lut[floor(i)];
+    float upper = lut[ceil(i)];
+    
+        ofLog()<<i<<" floor "<<floor(i)<<" ceil "<<ceil(i);
+        ofLog()<<i<<" lower "<<lower<<" upper "<<upper;
+        ofLog()<<"result "<<ofMap(i,floor(i),ceil(i),lower,upper,true);
+    return ofMap(i,floor(i),ceil(i),lower,upper,true);
 }
 
 void ofxCurvesTool::clear() {
