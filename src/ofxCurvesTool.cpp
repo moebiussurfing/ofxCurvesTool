@@ -20,19 +20,18 @@ ofxCurvesTool::ofxCurvesTool()
 
 }
 
-GLdouble modelviewMatrix[16], projectionMatrix[16];
-GLint viewport[4];
+glm::mat4 modelviewMatrix, projectionMatrix;
+ofRectangle viewport;
 void updateProjectionState() {
-	glGetDoublev(GL_MODELVIEW_MATRIX, modelviewMatrix);
-	glGetDoublev(GL_PROJECTION_MATRIX, projectionMatrix);
-	glGetIntegerv(GL_VIEWPORT, viewport);
+	modelviewMatrix = ofGetCurrentMatrix(OF_MATRIX_MODELVIEW);
+	projectionMatrix = ofGetCurrentMatrix(OF_MATRIX_PROJECTION);
+	viewport = ofGetCurrentViewport();
 }
 
 ofVec3f worldToScreen(ofVec3f world) {
 	updateProjectionState();
-	GLdouble x, y, z;
-	gluProject(world.x, world.y, world.z, modelviewMatrix, projectionMatrix, viewport, &x, &y, &z);
-	ofVec3f screen(x, y, z);
+	glm::vec4 viewport_ = glm::vec4(viewport.x, viewport.y, viewport.width, viewport.height);
+	glm::vec3 screen = glm::project((glm::vec3) world, modelviewMatrix, projectionMatrix, viewport_);
 	screen.y = ofGetHeight() - screen.y;
 	return screen;
 }
